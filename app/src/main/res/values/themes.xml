@@ -1,0 +1,21 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.News" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+    </style>
+
+    <style name="Theme.News" parent="Base.Theme.News" />
+
+    <style name="ImageView.Corner.small" parent="">
+        <item name="cornerSize">@dimen/margin_medium</item>
+        <item name="cornerFamily">rounded</item>
+    </style>
+    <style name="ImageView.Corner.regular" parent="">
+        <item name="cornerSize">@dimen/margin_medium_2</item>
+        <item name="cornerFamily">rounded</item>
+    </style>
+    <style name="ImageView.Corner.medium" parent="">
+        <item name="cornerSize">50%</item>
+    </style>
+</resources>

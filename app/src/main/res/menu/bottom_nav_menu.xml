@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/headLineNewsFragment"
+        android:icon="@drawable/ic_headline_24"
+        android:title="@string/lbl_headline" />
+
+    <item
+        android:id="@+id/savedNewsFragment"
+        android:icon="@drawable/ic_bookmark_24"
+        android:title="@string/lbl_saved_news" />
+
+</menu>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.newsdetails.NewsDetailsActivity">
+
+    <WebView
+        android:id="@+id/web_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        />
+
+    <LinearLayout
+        android:id="@+id/layout_no_internet"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        >
+        <androidx.appcompat.widget.AppCompatImageView
+            android:src="@drawable/ic_no_connection_24"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:tint="@color/grey"
+            android:layout_marginBottom="@dimen/margin_large"
+            />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txt_no_internet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/no_internet_connection"
+            android:fontFamily="@font/poppins_regular"
+            android:textSize="@dimen/text_regular"
+            />
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/retry"
+            android:textAllCaps="false"
+            android:textColor="@color/secondary"
+            />
+
+    </LinearLayout>
+
+</RelativeLayout>
