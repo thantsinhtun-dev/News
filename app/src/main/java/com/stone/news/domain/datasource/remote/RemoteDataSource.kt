@@ -8,7 +8,7 @@ import com.stone.news.utils.ViewState
 import kotlinx.coroutines.flow.Flow
 
 interface RemoteDataSource {
-    fun getNews(categoryId: String): Flow<ViewState<NewsResponseRemoteVO>>
-    fun getCategories(): Flow<ViewState<CategoryResponseRemoteVO>>
+    fun getNews(categoryId: String): Flow<NetworkResult<NewsResponseRemoteVO>>
+    fun getCategories(): Flow<NetworkResult<CategoryResponseRemoteVO>>
 
 }

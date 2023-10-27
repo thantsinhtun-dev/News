@@ -3,14 +3,47 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.savenews.SavedNewsFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_news_list"
+        android:paddingVertical="@dimen/margin_medium_2"
+        android:clipToPadding="false"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:listitem="@layout/item_news" />
+        tools:listitem="@layout/item_news"
+        android:visibility="gone"
+        />
+
+    <LinearLayout
+        android:id="@+id/layout_no_savenews"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="visible"
+        android:gravity="center"
+        >
+        <androidx.appcompat.widget.AppCompatImageView
+            android:src="@drawable/ic_no_bookmark"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:scaleType="centerCrop"
+            android:layout_marginBottom="@dimen/margin_large"
+            />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txt_no_internet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/currently_there_no_saved_news"
+            android:fontFamily="@font/poppins_regular"
+            android:textSize="@dimen/text_regular"
+            />
+
+
+    </LinearLayout>
 
 </RelativeLayout>

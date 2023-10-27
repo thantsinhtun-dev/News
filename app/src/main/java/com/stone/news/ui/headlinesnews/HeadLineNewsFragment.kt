@@ -25,8 +25,6 @@ class HeadLineNewsFragment : BaseFragment(),NewsItemDelegate {
 
     private lateinit var newsListAdapter: NewsListAdapter
 
-//    private  var viewModel : HeadlinesNewsVM :
-//    by viewModels<HeadlinesNewsVM>()
 private val viewModel: HeadlinesNewsVM by viewModels()
 
 
@@ -36,7 +34,6 @@ private val viewModel: HeadlinesNewsVM by viewModels()
     ): View {
         binding = FragmentHeadLineNewsBinding.inflate(inflater, container, false)
 
-//        viewModel = ViewModelProvider(requireActivity())[HeadlinesNewsVM::class.java]
 
 
         return  binding.root
@@ -76,7 +73,6 @@ private val viewModel: HeadlinesNewsVM by viewModels()
         }
         viewModel.newsList.observe(viewLifecycleOwner) { data ->
 
-            Log.i("Test  observe","new list observed")
 
             newsListAdapter.submitList(data)
 

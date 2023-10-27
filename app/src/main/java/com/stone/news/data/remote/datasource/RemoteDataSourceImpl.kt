@@ -19,14 +19,14 @@ class RemoteDataSourceImpl @Inject constructor(
 ) : RemoteDataSource {
 
     override fun getCategories() = flow {
-        emit(ViewState.loading())
+        emit(NetworkResult.Loading(true))
         val response = apiService.getCategories()
-        emit(ViewState.success(response))
+        emit(NetworkResult.Success(response))
     }.flowOn(Dispatchers.IO)
     override fun getNews(categoryId: String)  = flow {
-        emit(ViewState.loading())
-        val response = apiService.getTopHeadlines(sources = categoryId)
-        emit(ViewState.success(response))
+        emit(NetworkResult.Loading(true))
+        val response = apiService.getTopHeadlines(categoryId)
+        emit(NetworkResult.Success(response))
     }.flowOn(Dispatchers.IO)
 
 }

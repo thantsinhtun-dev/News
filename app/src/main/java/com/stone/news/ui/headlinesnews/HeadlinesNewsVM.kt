@@ -10,6 +10,7 @@ import com.stone.news.data.local.database.entity.NewsVO
 import com.stone.news.domain.datasource.local.CategoryLocalDataSource
 import com.stone.news.domain.datasource.local.NewsLocalDataSource
 import com.stone.news.domain.datasource.remote.RemoteDataSource
+import com.stone.news.utils.NetworkResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.catch
@@ -36,12 +37,14 @@ class HeadlinesNewsVM @Inject constructor(
     private val _error = MutableLiveData<String>()
     val error: LiveData<String> = _error
 
-    private var selectedCategory : String = ""
+    private var selectedCategory: String = ""
 
-    var selectedTabPosition : Int  = 0
+    var selectedTabPosition: Int = 0
+
     init {
         fetchCategory()
     }
+
     fun loadNewsByCategory(position: Int) {
         val id = categoryList.value?.getOrNull(position)?.id
         fetchNews(id)
@@ -54,53 +57,62 @@ class HeadlinesNewsVM @Inject constructor(
     }
 
     private fun fetchCategory() {
-        Log.i("Test", "fetchCategory")
         viewModelScope.launch {
             //load data from Database
             categoryLocalDataSource.getAllCategories().collect {
 
-                    _categoryList.value = it
+                _categoryList.value = it
 
-                    fetchNews(it.firstOrNull()?.id)
+                fetchNews(it.firstOrNull()?.id)
 
-                }
+            }
         }
         viewModelScope.launch {
             //load data from Network and save it to database
             remoteDataSource.getCategories().catch {
-                    Log.i("Test Error", it.localizedMessage)
 
-                    _error.value = it.localizedMessage
-                }.collect {
+                _error.value = it.localizedMessage
+            }.collect {
 
-                    it.data?.data.let { data ->
-                        data?.map { vo ->
-                            CategoryVO(vo)
-                        }?.let { list ->
-                            categoryLocalDataSource.saveCategoryList(list)
+                when (it) {
+                    is NetworkResult.Loading -> {
+
+                    }
+
+                    is NetworkResult.Success -> {
+                        it.data.data.let { data ->
+                            data?.map { vo ->
+                                CategoryVO(vo)
+                            }?.let { list ->
+                                categoryLocalDataSource.saveCategoryList(list)
+                            }
                         }
                     }
+
+                    is NetworkResult.Failure -> {
+
+                    }
                 }
+            }
+
         }
 
 
     }
 
-    fun reloadNews(){
+    fun reloadNews() {
         viewModelScope.launch {
 
             newsLocalDataSource.getAllNews()
                 .catch {
-                    Log.i("Test ErrorgetNewsByCategory", it.localizedMessage)
 
                 }
                 .collectLatest {
 
-                    Log.i("Test Fire","${selectedCategory  }")
 
-                    it.filter {newsVO ->
+                    it.filter { newsVO ->
                         newsVO.categoryId == selectedCategory
-                    }.let {data->
+                    }.let { data ->
                         _newsList.postValue(data)
                     }
                 }
@@ -117,18 +129,16 @@ class HeadlinesNewsVM @Inject constructor(
 
                 newsLocalDataSource.getAllNews()
                     .catch {
-                        Log.i("Test ErrorgetNewsByCategory", it.localizedMessage)
 
                     }
                     .collectLatest {
 
-                        Log.i("Test Fire","${selectedCategory + it.toString() }")
 
-                         it.filter {newsVO ->
+                        it.filter { newsVO ->
                             newsVO.categoryId == selectedCategory
                         }.let {
                             _newsList.value = it
-                         }
+                        }
                     }
 
 
@@ -136,17 +146,26 @@ class HeadlinesNewsVM @Inject constructor(
 
             viewModelScope.launch {
                 remoteDataSource.getNews(categoryId = id).catch {
-                        _error.value = it.localizedMessage
-                    }.collect {
-                        it.data?.data.let { data ->
-                            data?.map { vo ->
-                                NewsVO(vo)
-                            }?.let { list ->
-//                                _newsList.value = list
-                                newsLocalDataSource.saveNewsList(list)
+                    _error.value = it.localizedMessage
+                }.collect {
+                    when (it){
+                        is NetworkResult.Loading -> {
+
+                        }
+                        is NetworkResult.Success -> {
+                            it.data.data.let { data ->
+                                data?.map { vo ->
+                                    NewsVO(vo)
+                                }?.let { list ->
+                                    newsLocalDataSource.saveNewsList(list)
+                                }
                             }
                         }
+                        is NetworkResult.Failure -> {
+
+                        }
                     }
+                }
             }
 
 

@@ -19,9 +19,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SaveNewsVM @Inject constructor(
-    val remoteDataSource: RemoteDataSource,
-    val newsLocalDataSource: NewsLocalDataSource,
-    val categoryLocalDataSource: CategoryLocalDataSource
+    private val newsLocalDataSource: NewsLocalDataSource,
 ) : ViewModel() {
     private val _newsList = MutableLiveData<List<NewsVO>>()
     val newsList: LiveData<List<NewsVO>> = _newsList
@@ -34,12 +32,9 @@ class SaveNewsVM @Inject constructor(
         viewModelScope.launch {
             newsLocalDataSource.getAllSavedNews()
                 .catch {
-
-
+                    //Handle error
                 }
                 .collect{
-                    Log.i("Test Fire in save vm","${  it.toString() }")
-
                     _newsList.value = it
                 }
         }
@@ -47,6 +42,7 @@ class SaveNewsVM @Inject constructor(
 
     fun updateNews(vo: NewsVO) {
         viewModelScope.launch {
+            vo.saveFromDetail = !vo.saveFromDetail
             newsLocalDataSource.updateNews(vo)
         }
     }

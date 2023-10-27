@@ -37,7 +37,6 @@ class SavedNewsFragment : BaseFragment() , NewsItemDelegate {
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Log.i("Test ","onViewCreated")
 
         setUpRecyclerView()
 
@@ -46,7 +45,15 @@ class SavedNewsFragment : BaseFragment() , NewsItemDelegate {
 
     private fun setUpObserver(){
         viewModel.newsList.observe(viewLifecycleOwner){
-            newsListAdapter.submitList(it)
+            if (it.isEmpty()){
+                binding.layoutNoSavenews.visibility = View.VISIBLE
+                binding.rvNewsList.visibility = View.GONE
+            }else {
+                binding.layoutNoSavenews.visibility = View.GONE
+                binding.rvNewsList.visibility = View.VISIBLE
+                newsListAdapter.submitList(it)
+            }
+
         }
     }
     private fun setUpRecyclerView() {

@@ -3,7 +3,11 @@ package com.stone.news.ui.newsdetails
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.webkit.WebChromeClient
+import android.webkit.WebResourceError
+import android.webkit.WebResourceRequest
+import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -13,7 +17,7 @@ import com.stone.news.databinding.ActivityNewsDetailsBinding
 import com.stone.news.ui.base.BaseActivity
 import com.stone.news.utils.getSerializable
 
-class NewsDetailsActivity : BaseActivity() {
+class NewsDetailsActivity : BaseActivity(){
     private lateinit var binding: ActivityNewsDetailsBinding
 
     private val viewModel: NewsDetailVM by viewModels()
@@ -84,7 +88,13 @@ class NewsDetailsActivity : BaseActivity() {
     private  fun loadWebView(url:String){
             try {
                 binding.webView.apply {
-                    webChromeClient = WebChromeClient()
+                    webViewClient = object : WebViewClient(){
+                        override fun onReceivedError(view: WebView?, request: WebResourceRequest?, error: WebResourceError?) {
+                            super.onReceivedError(view, request, error)
+                            binding.webView.visibility = View.GONE
+                            binding.layoutNoInternet.visibility = View.VISIBLE
+                        }
+                    }
                     loadUrl(url)
                 }
             }

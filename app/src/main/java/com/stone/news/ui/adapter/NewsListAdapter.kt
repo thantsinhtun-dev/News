@@ -54,6 +54,8 @@ class NewsListAdapter(val newsItemDelegate: NewsItemDelegate) : ListAdapter<News
             }
             if (vo.bookmark ){
                 binding.imgBookmark.setColorFilter(Color.parseColor("#FF6200EE"), PorterDuff.Mode.SRC_IN)
+            }else{
+                binding.imgBookmark.setColorFilter(Color.parseColor("#606060"), PorterDuff.Mode.SRC_IN)
             }
 
             binding.imgBookmark.setOnClickListener {
