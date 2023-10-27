@@ -10,7 +10,8 @@
         android:id="@+id/news_img"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:background="@color/secondary"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_place_holder"
         android:layout_marginBottom="@dimen/margin_medium"
         app:shapeAppearanceOverlay="@style/ImageView.Corner.small"
 
@@ -35,6 +36,7 @@
         android:orientation="horizontal"
         >
         <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/news_publish_date"
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -49,16 +51,19 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content">
             <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/imgBookmark"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:tint="@color/secondary"
+                android:background="?selectableItemBackgroundBorderless"
+                android:tint="@color/grey"
                 android:src="@drawable/ic_bookmark_24"/>
         </RelativeLayout>
 
     </androidx.appcompat.widget.LinearLayoutCompat>
     
     <com.google.android.material.divider.MaterialDivider
+        android:id="@+id/news_divider"
         android:layout_below="@id/layout_bookmark"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

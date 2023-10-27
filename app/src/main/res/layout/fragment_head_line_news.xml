@@ -10,7 +10,6 @@
         android:id="@+id/tabLayoutGenre"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_medium_3"
         app:tabMode="scrollable"
         app:tabSelectedTextColor="@color/secondary"/>
 
@@ -19,6 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/tabLayoutGenre"
+        android:layout_marginVertical="@dimen/margin_medium"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:listitem="@layout/item_news" />
 </RelativeLayout>

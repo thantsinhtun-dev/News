@@ -7,6 +7,10 @@ plugins {
     id 'kotlin-kapt'
 }
 
+def apiProfile = rootProject.file("app/api.properties")
+def apiProperties = new Properties()
+apiProperties.load(new FileInputStream(apiProfile))
+
 android {
     namespace 'com.stone.news'
     compileSdk 34
@@ -22,11 +26,23 @@ android {
     }
     buildFeatures {
         viewBinding true
+        buildConfig = true
     }
 
     buildTypes {
+        debug {
+            minifyEnabled false
+            shrinkResources false
+
+            buildConfigField("String", "BASE_URL", apiProperties['base_url'])
+            buildConfigField("String", "API_KEY", apiProperties['api_key'])
+        }
         release {
             minifyEnabled false
+            shrinkResources false
+
+            buildConfigField("String", "BASE_URL", apiProperties['base_url'])
+            buildConfigField("String", "API_KEY", apiProperties['api_key'])
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -41,7 +57,7 @@ android {
 
 dependencies {
 
-    implementation 'androidx.core:core-ktx:1.9.0'
+    implementation 'androidx.core:core-ktx:1.12.0'
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.10.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
@@ -53,6 +69,32 @@ dependencies {
 
     implementation "com.google.dagger:hilt-android:2.44"
     kapt "com.google.dagger:hilt-compiler:2.44"
+
+
+    // Retrofit
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+
+
+    // Moshi
+    implementation "com.squareup.moshi:moshi-kotlin:1.13.0"
+    implementation 'com.squareup.retrofit2:converter-moshi:2.9.0'
+
+    // OkHttp3
+    implementation "com.squareup.okhttp3:okhttp:4.10.0"
+
+    //logger
+    implementation("com.squareup.okhttp3:logging-interceptor:4.10.0")
+
+    // Room
+    implementation "androidx.room:room-runtime:2.6.0"
+    kapt "androidx.room:room-compiler:2.6.0"
+    implementation "androidx.room:room-ktx:2.6.0"
+
+    //Glide
+    implementation 'com.github.bumptech.glide:glide:4.16.0'
+
+
+
 }
 kapt {
     correctErrorTypes true
