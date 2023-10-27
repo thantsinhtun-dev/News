@@ -67,6 +67,7 @@ class NewsListAdapter(val newsItemDelegate: NewsItemDelegate) : ListAdapter<News
             }
 
             itemView.setOnClickListener {
+                vo.bookMarkTime = System.currentTimeMillis()
                 newsItemDelegate.onClickNews(vo)
             }
         }
@@ -82,7 +83,8 @@ private val DIFF_CALLBACK
                     (oldItem.author == newItem.author) and
                     (oldItem.urlToImage == newItem.urlToImage) and
                     (oldItem.publishedAt == newItem.publishedAt) and
-                    (oldItem.description == newItem.description)
+                    (oldItem.description == newItem.description) and
+            (oldItem.saveFromDetail == newItem.saveFromDetail)
         }
 
         override fun areContentsTheSame(oldItem: NewsVO, newItem: NewsVO): Boolean {
@@ -91,6 +93,6 @@ private val DIFF_CALLBACK
                     (oldItem.author == newItem.author) and
                     (oldItem.urlToImage == newItem.urlToImage) and
                     (oldItem.publishedAt == newItem.publishedAt) and
-                    (oldItem.description == newItem.description)
+                    (oldItem.saveFromDetail == newItem.saveFromDetail)
         }
     }

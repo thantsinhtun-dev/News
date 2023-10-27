@@ -86,6 +86,29 @@ class HeadlinesNewsVM @Inject constructor(
 
     }
 
+    fun reloadNews(){
+        viewModelScope.launch {
+
+            newsLocalDataSource.getAllNews()
+                .catch {
+                    Log.i("Test ErrorgetNewsByCategory", it.localizedMessage)
+
+                }
+                .collectLatest {
+
+                    Log.i("Test Fire","${selectedCategory  }")
+
+                    it.filter {newsVO ->
+                        newsVO.categoryId == selectedCategory
+                    }.let {data->
+                        _newsList.postValue(data)
+                    }
+                }
+
+
+        }
+    }
+
     private fun fetchNews(category: String?) {
         category?.let { id ->
 

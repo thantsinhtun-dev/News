@@ -6,6 +6,8 @@ import androidx.room.Index
 import androidx.room.PrimaryKey
 import com.squareup.moshi.Json
 import com.stone.news.data.remote.model.news.NewsRemoteVO
+import java.io.Serializable
+import java.util.function.BiPredicate
 
 @Entity(tableName = "News")
 data class NewsVO(
@@ -28,9 +30,13 @@ data class NewsVO(
     val publishedAt: String,
     @ColumnInfo(name = "content")
     val content: String?,
+    @ColumnInfo(name = "saveFromDetail")
+    var saveFromDetail : Boolean,
+    @ColumnInfo(name = "bookMarkTime")
+    var bookMarkTime : Long,
     @ColumnInfo(name = "bookmark")
     var bookmark: Boolean = false
-){
+) : Serializable {
     constructor(vo:NewsRemoteVO) : this(
         title = vo.title ?: "",
         author = vo.author ?: "",
@@ -40,5 +46,7 @@ data class NewsVO(
         url = vo.url ?: "",
         publishedAt = vo.publishedAt ?: "",
         content = vo.content ?: "",
+        saveFromDetail = false,
+        bookMarkTime = System.currentTimeMillis(),
     )
 }

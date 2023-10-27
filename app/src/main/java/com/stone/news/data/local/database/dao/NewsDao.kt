@@ -20,7 +20,7 @@ interface NewsDao {
     @Query("SELECT * FROM news where categoryId = :category")
     fun getNewsByCategory(category:String): Flow<List<NewsVO>>
 
-    @Query("SELECT * FROM news where bookmark = 1")
+    @Query("SELECT * FROM news where bookmark = 1 order by bookMarkTime")
     fun getAllSaveNews(): Flow<List<NewsVO>>
 
     @Update(onConflict = OnConflictStrategy.REPLACE)

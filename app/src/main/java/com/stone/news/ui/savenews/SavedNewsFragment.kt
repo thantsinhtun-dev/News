@@ -11,6 +11,7 @@ import com.stone.news.data.local.database.entity.NewsVO
 import com.stone.news.databinding.FragmentSavedNewsBinding
 import com.stone.news.ui.base.BaseFragment
 import com.stone.news.ui.adapter.NewsListAdapter
+import com.stone.news.ui.newsdetails.NewsDetailsActivity
 
 
 class SavedNewsFragment : BaseFragment() , NewsItemDelegate {
@@ -54,6 +55,7 @@ class SavedNewsFragment : BaseFragment() , NewsItemDelegate {
     }
 
     override fun onClickNews(vo: NewsVO) {
+        startActivity(NewsDetailsActivity.getIntent(requireContext(),vo))
 
     }
 

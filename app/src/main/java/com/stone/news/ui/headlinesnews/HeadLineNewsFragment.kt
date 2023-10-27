@@ -5,6 +5,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.viewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.tabs.TabLayout
 import com.stone.movieapp.delegates.NewsItemDelegate
@@ -12,6 +14,8 @@ import com.stone.news.data.local.database.entity.NewsVO
 import com.stone.news.databinding.FragmentHeadLineNewsBinding
 import com.stone.news.ui.adapter.NewsListAdapter
 import com.stone.news.ui.base.BaseFragment
+import com.stone.news.ui.newsdetails.NewsDetailVM
+import com.stone.news.ui.newsdetails.NewsDetailsActivity
 
 
 class HeadLineNewsFragment : BaseFragment(),NewsItemDelegate {
@@ -21,8 +25,10 @@ class HeadLineNewsFragment : BaseFragment(),NewsItemDelegate {
 
     private lateinit var newsListAdapter: NewsListAdapter
 
-    private lateinit var viewModel : HeadlinesNewsVM
+//    private  var viewModel : HeadlinesNewsVM :
 //    by viewModels<HeadlinesNewsVM>()
+private val viewModel: HeadlinesNewsVM by viewModels()
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,7 +36,7 @@ class HeadLineNewsFragment : BaseFragment(),NewsItemDelegate {
     ): View {
         binding = FragmentHeadLineNewsBinding.inflate(inflater, container, false)
 
-        viewModel = ViewModelProvider(requireActivity())[HeadlinesNewsVM::class.java]
+//        viewModel = ViewModelProvider(requireActivity())[HeadlinesNewsVM::class.java]
 
 
         return  binding.root
@@ -48,8 +54,8 @@ class HeadLineNewsFragment : BaseFragment(),NewsItemDelegate {
 
     override fun onResume() {
         super.onResume()
-        Log.i("Test Tabselected onResume","onResume ${viewModel.selectedTabPosition}")
         setUpListener()
+        viewModel.reloadNews()
 
     }
 
@@ -70,7 +76,10 @@ class HeadLineNewsFragment : BaseFragment(),NewsItemDelegate {
         }
         viewModel.newsList.observe(viewLifecycleOwner) { data ->
 
+            Log.i("Test  observe","new list observed")
+
             newsListAdapter.submitList(data)
+
         }
     }
 
@@ -104,7 +113,7 @@ class HeadLineNewsFragment : BaseFragment(),NewsItemDelegate {
     }
 
     override fun onClickNews(vo: NewsVO) {
-//        viewModel.updateNews(vo)
+        startActivity(NewsDetailsActivity.getIntent(requireContext(),vo))
     }
 
     override fun onClickBookMark(vo: NewsVO) {
